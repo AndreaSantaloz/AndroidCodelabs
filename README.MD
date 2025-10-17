@@ -42,3 +42,4 @@ Estas son las partes clave necesarias para definir una función:
 
 ## Ejercicios del tutorial de kotlin de funciones y convenciones de estilo
 [Ejercicios Kotlin](./CodelabTutorialKotlin/EjerciciosKotlin.kt)
+[Conceptos básicos Kotlin](./CodelabTutorialKotlin/ConceptosBasicos.kt)
