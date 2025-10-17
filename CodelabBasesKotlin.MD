@@ -18,4 +18,4 @@ Estas son las partes clave necesarias para definir una función:
                                                                 3. La función también tiene un cuerpo que contiene las instrucciones para realizar la tarea.
 
 ## Ejercicios del tutorial de kotlin
-[Ejercicios Kotlin]()
+[Ejercicios Kotlin](./CodelabTutorialKotlin/EjerciciosKotlin.kt)
