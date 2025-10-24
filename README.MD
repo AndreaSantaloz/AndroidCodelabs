@@ -179,3 +179,5 @@ Row {
     Text("Last text")
 }
 ```
+Apartado de inserción de imagen para 25/10/2025
+
