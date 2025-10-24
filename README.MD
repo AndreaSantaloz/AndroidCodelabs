@@ -70,5 +70,7 @@ private var INSTANCE: AppDatabase? = null
 ```
 Las anotaciones pueden tomar parámetros. Proporcionan información adicional a las herramientas que las procesan. Los siguientes son algunos ejemplos de la anotación @Preview con y sin parámetros.
 ![Anotaciones](././images/anotacionesconparams.png)
-Ejemplo de anotaciones 
+<br>
+Ejemplo de anotaciones con parametros
+<br>
 ![Anotaciones](././images/ejemplodeanotaciones.png)
