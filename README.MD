@@ -46,3 +46,17 @@ Estas son las partes clave necesarias para definir una función:
 ## Ejercicios del tutorial de kotlin de funciones y convenciones de estilo
 1. [Ejercicios Kotlin](./CodelabTutorialKotlin/EjerciciosKotlin.kt)
 2. [Conceptos básicos Kotlin](./CodelabTutorialKotlin/ConceptosBasicos.kt)
+
+## ¿Qué es jetpackCompose?
+Jetpack Compose es un kit de herramientas moderno para crear IUs de Android. Compose simplifica y acelera el desarrollo de IUs en Android con menos código, herramientas potentes y capacidades intuitivas de Kotlin. Con Compose, puedes compilar tu IU a partir de la definición de un conjunto de funciones, llamadas funciones de componibilidad, que toman datos y describen elementos de la IU.
+Funciones de componibilidad
+Las funciones de componibilidad son los componentes básicos de una IU en Compose. Una función de componibilidad cumple con lo siguiente:
+
+1. Describe alguna parte de tu IU.
+2. No devuelve nada.
+3. Toma información y genera lo que se muestra en la pantalla.
+
+### Anotaciones
+Las anotaciones son una forma de adjuntar información adicional al código. Esta información ayuda a herramientas como el compilador de Jetpack Compose y a otros desarrolladores a comprender el código de la app.
+Para aplicar una anotación, se agrega un prefijo al nombre (la anotación) con el carácter @ al comienzo de la declaración en la que se hará la anotación. Se pueden anotar diferentes elementos de código, incluidas propiedades, funciones y clases. Más adelante en el curso, aprenderás sobre las clases.
+
