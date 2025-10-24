@@ -179,5 +179,6 @@ Row {
     Text("Last text")
 }
 ```
-Apartado de inserción de imagen para 25/10/2025
+Apartado de inserción de imagen y bases de compose  para 25/10/2025
+Apartado de crear app de tarjetas desde 25/10 a 26/10
 
