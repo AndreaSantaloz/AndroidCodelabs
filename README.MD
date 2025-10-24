@@ -60,4 +60,13 @@ Las funciones de componibilidad son los componentes básicos de una IU en Compos
 Las anotaciones son una forma de adjuntar información adicional al código. Esta información ayuda a herramientas como el compilador de Jetpack Compose y a otros desarrolladores a comprender el código de la app.
 Para aplicar una anotación, se agrega un prefijo al nombre (la anotación) con el carácter @ al comienzo de la declaración en la que se hará la anotación. Se pueden anotar diferentes elementos de código, incluidas propiedades, funciones y clases. Más adelante en el curso, aprenderás sobre las clases.
 ![Anotaciones](././images/anotaciones.png)
-
+Ejemplo siguiente
+```
+// Example code, do not copy it over
+@Json
+val imgSrcUrl: String
+@Volatile
+private var INSTANCE: AppDatabase? = null
+```
+Las anotaciones pueden tomar parámetros. Proporcionan información adicional a las herramientas que las procesan. Los siguientes son algunos ejemplos de la anotación @Preview con y sin parámetros.
+![Anotaciones](././images/anotacionesconparams.png)
