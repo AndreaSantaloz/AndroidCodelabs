@@ -238,7 +238,7 @@ fun printResults(firstNumber:Int,secondNumber:Int,total:Int,Symbol:String){
 */
 
 /*
-6.Gmail tiene una función que envía notificaciones al usuario cada vez que se intenta acceder a una cuenta en un dispositivo nuevo.
+8.Gmail tiene una función que envía notificaciones al usuario cada vez que se intenta acceder a una cuenta en un dispositivo nuevo.
 
 En este ejercicio, escribirás un programa que muestra un mensaje a los usuarios con esta plantilla de mensaje:
 
@@ -296,4 +296,33 @@ fun main() {
     println(displayAlertMessage(thirdUserOperatingSystem, thirdUserEmailId))
     println()
 }
+*/
+#Apartado 1
+/*
+fun main() {
+    val operatingSystem:String = "Chrome OS"
+    val emailId:String = "sample@gmail.com"
+
+  	displayAlertMessage(operatingSystem, emailId)
+}
+
+fun displayAlertMessage(value1:String,value2:String){
+     println( "There's a new sign-in request on $value1 for your $value2 emailId.")
+}
+*/
+#Apartado2
+/*
+fun main() {
+    const users = arrayOf("user_one@gmail.com", "user_two@gmail.com", "user_three@gmail.com")
+    const operationSos = arrayOf("Windows", "Amazon", "Mac OS")
+     for(i in 0..2){
+         displayAlertMessage(operationSos[i],users[i])
+    }
+  
+    
+}
+fun displayAlertMessage(operationSo:String,email:String){
+      println( "There's a new sign-in request on $operationSo for your Google Account $email. ")
+}
+
 */
