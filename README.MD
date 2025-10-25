@@ -1,7 +1,5 @@
 
 # Android Studio y Kotlin
-------------------------------------------------------------------------
-
 # Propietaria
 Andrea Santana López
 ## Kotlin playground
@@ -186,3 +184,132 @@ Row {
 Apartado de inserción de imagen y bases de compose  para 25/10/2025
 Apartado de crear app de tarjetas desde 25/10 a 26/10
 
+## Cómo agregar una imagen a tu proyecto
+
+En esta tarea, descargarás una imagen de Internet y la agregarás a la app de Happy Birthday.
+1. Abre la imagen de la app de tarjeta de cumpleaños desde este vínculo.
+2. Haz clic en Descargar.
+3. Haz clic con el botón derecho en la imagen y, luego, guarda el archivo en tu computadora como androidparty.png.
+4. Toma nota de dónde guardaste la imagen.
+5. En Android Studio, haz clic en View > Tool Windows > Resource Manager o en la pestaña Resource Manager junto a la ventana Project.
+6. Haz clic en + (Add resources to the module) > Import Drawables.
+7. En el navegador de archivos, selecciona el archivo de imagen que descargaste y haz clic en Open.
+8. Android Studio te muestra una vista previa de la imagen. Selecciona Density en la lista desplegable QUALIFIER TYPE. En una sección posterior, aprenderás por qué lo haces.
+9. Selecciona No Density en la lista VALUE.
+10. Haz clic en Siguiente.
+11. Android Studio te muestra la estructura de carpetas en la que se ubicará la imagen. Observa la carpeta drawable-nodpi.
+12. Haz clic Import(C).
+13. Para regresar a la vista de proyectos, haz clic en View > Tool Windows > Project o en la pestaña Project del extremo izquierdo
+14. Haz clic en app > res > drawable para confirmar que la imagen se encuentra en la carpeta drawable.
+15. 
+Los dispositivos Android están disponibles en diferentes tamaños de pantalla (teléfonos, tablets y TVs, etc.), y sus pantallas también tienen píxeles de distintos tamaños. Es decir, hay dispositivos que tienen 160 píxeles por pulgada cuadrada y otros que adaptan 480 píxeles en el mismo espacio. Si no tienes en cuenta estas variaciones de densidad de píxeles, es posible que el sistema escale tus imágenes, lo que podría producir que se vean borrosas, imágenes grandes que consumen demasiada memoria o imágenes cuyo tamaño es incorrecto.
+
+Cuando cambias el tamaño de las imágenes a uno más grande del que puede controlar el sistema Android, se genera un error de memoria insuficiente. En el caso de las imágenes de fondo o fotos, como la imagen actual, androidparty.png, debes colocarlas en la carpeta drawable-nodpi, ya que eso detendrá el comportamiento de cambio de tamaño.
+
+Se abrirá el diálogo Import Drawables.
+### Resource Manager
+Resource Manager es una ventana de herramientas que te permite importar, crear, administrar y usar recursos en tu app.
+
+Android Studio crea una carpeta drawable-nodpi y coloca la imagen en ella. En la vista de proyectos de Android Studio, el nombre del recurso se muestra como androidparty.png (nodpi). En el sistema de archivos de la 
+computadora, Android Studio crearía una carpeta con el nombre drawable-nodpi.Si la imagen se importó correctamente, Android Studio la agregará a la lista en la pestaña Drawable. En esa lista se incluyen todos los íconos e imágenes de tu app. Ahora, puedes usar la imagen en tu app.
+
+### Recursos en Jetpack Compose
+
+Los recursos son los archivos adicionales y el contenido estático que usa tu código, como mapas de bits, strings de interfaz de usuario, instrucciones de animación, etc. Para obtener más información sobre los recursos en Android, consulta Información general sobre los recursos de las app.
+
+Siempre debes separar los recursos para apps, como imágenes y strings, de tu código para que puedas mantenerlos de forma independiente. En tiempo de ejecución, Android utiliza el recurso adecuado según la configuración actual. Por ejemplo, puedes proporcionar un diseño de interfaz de la IU diferente según el tamaño de la pantalla o strings diferentes según la configuración de idioma.
+
+### Cómo agrupar recursos
+
+Siempre debes colocar cada tipo de recurso en un subdirectorio específico del directorio res/ de tu proyecto. Por ejemplo, esta es la jerarquía de archivos de un proyecto simple:
+```
+MyProject/
+    src/
+        MyActivity.kt
+    res/
+        drawable/
+            graphic.png
+        mipmap/
+            icon.png
+        values/
+            strings.xml
+```
+
+Como se ve en este ejemplo, el directorio res/ contiene todos los recursos de los subdirectorios, que incluyen un directorio drawable/ para un recurso de imagen, un directorio mipmap/ para los íconos de selector y un directorio values/ para recursos de strings. Para obtener más información sobre el uso, el formato y la sintaxis para los recursos de la app, consulta Descripción general de los tipos de recursos.
+
+Acceso a recursos
+
+Jetpack Compose puede acceder a los recursos definidos en tu proyecto de Android. Se puede acceder a los recursos con los ID de recursos que se generan en la clase R de tu proyecto.
+
+### Agrega Diseño Box
+Los tres elementos de diseño estándar básicos en Compose son los elementos Column, Row y Box componibles. Aprendiste sobre los elementos Column y Row componibles en los codelabs anteriores, ahora explorarás más sobre el elemento Box componible.
+El diseño Box es uno de los elementos de diseño estándar en Compose. Usa el diseño Box para apilar elementos uno sobre el otro. El diseño Box también te permite configurar la alineación específica de los elementos que contiene.
+
+### Cómo ajustar la escala del contenido
+Agregaste la imagen a tu app y la posicionaste. Ahora debes ajustar el tipo de escala de la imagen, que indica cómo ajustar el tamaño de la imagen para que se muestre en pantalla completa.
+Hay bastantes tipos de ContentScale disponibles. Usa el escalamiento del parámetro ContentScale.Crop, que ajusta la escala de la imagen de manera uniforme para mantener la relación de aspecto, de modo que el ancho y el alto de esta sean iguales o mayores a la dimensión correspondiente de la pantalla.
+### Cambia la opacidad
+Para mejorar el contraste de la app, cambia la opacidad de la imagen de fondo.
+Agrega el parámetro alpha al elemento componible Image y establécelo en 0.5F.
+### Modificadores de diseño
+Los modificadores se usan para decorar o agregar comportamiento a los elementos de IU de Jetpack Compose. Por ejemplo, puedes agregar fondos, padding o comportamiento a filas, texto o botones. Para configurarlos, un elemento componible o un diseño debe aceptar un modificador como parámetro.En un codelab anterior, aprendiste sobre los modificadores y usaste el modificador de padding (Modifier.padding) para agregar espacio alrededor de un Text componible. Los modificadores pueden ser muy útiles, y lo verás en este camino de aprendizaje y en los próximos.
+Para establecer la posición de los elementos secundarios dentro de un Row, configura los argumentos horizontalArrangement y verticalAlignment. Para una Column, configura los argumentos verticalArrangement y horizontalAlignment.La propiedad de las disposiciones se usa para organizar los elementos secundarios cuando el tamaño del diseño es mayor que la suma de sus elementos secundarios.De la misma manera, cuando el tamaño de Row es mayor que la suma de sus tamaños secundarios, se puede especificar un horizontalArrangement para definir el posicionamiento de la elementos secundarios dentro de Row. A continuación, se muestra una ilustración de diferentes disposiciones horizontales:
+
+### Padding
+Un elemento de la IU se une a su contenido. Para evitar que la contracción sea demasiado marcada, puedes especificar una cantidad de padding a cada lado.El padding se usa como modificador, lo que significa que puedes aplicarlo a cualquier elemento componible. Para cada lado del elemento componible, el modificador padding toma un argumento opcional que define la cantidad de padding.
+El texto describe el proceso para **extraer *strings* codificadas** en una aplicación de Android (escrita en Kotlin y Jetpack Compose) a **recursos de *string***. Este es el paso fundamental y más importante para facilitar la traducción de la aplicación a otros idiomas.
+
+## Resumen del Proceso para Facilitar las Traducciones (Traducción/Localización)
+
+Para que tu aplicación de Android sea fácil de traducir a otros idiomas (localización), debes **evitar codificar las *strings*** (texto) directamente en el código. En su lugar, debes **extraerlas a un archivo de recursos** llamado `strings.xml`.
+
+Aquí tienes los pasos clave para hacerlo:
+
+### 1\. Extracción de Strings
+
+1.  **Identifica la String Codificada:** Localiza la *string* que está escrita directamente en tu código (ej. `"Happy Birthday Sam!"`).
+2.  **Usa la Herramienta de Android Studio:**
+      * Selecciona la *string* sin las comillas (ej. `Happy Birthday Sam!`).
+      * Haz clic en la **bombilla** 💡 (o usa la acción rápida).
+      * Selecciona la opción **"Extract string resource"**.
+3.  **Define el Nombre del Recurso:** En el diálogo "Extract Resource":
+      * Asigna un **Resource name** (nombre del recurso) que sea en **minúsculas** y use **guiones bajos** (`_`) (ej. `happy_birthday_text`).
+      * Verifica que el **Resource Value** sea la *string* correcta.
+      * Haz clic en **Aceptar**.
+
+### 2\. Resultados Clave
+
+  * **En el Código (Kotlin/Compose):** La *string* codificada es reemplazada por una llamada a la función que recupera el recurso:
+
+    ```kotlin
+    GreetingImage(
+        // Antes: message = "Happy Birthday Sam!",
+        message = stringResource(R.string.happy_birthday_text), // Después
+        // ...
+    )
+    // Nota: Necesitas importar stringResource() de androidx.compose.ui.res
+    ```
+
+  * **En el Archivo de Recursos (`app > res > values > strings.xml`):** Android Studio crea automáticamente una entrada para el nuevo recurso.
+
+    ```xml
+    <resources>
+        <string name="app_name">Happy Birthday</string>
+        <string name="happy_birthday_text">Happy Birthday Sam!</string>
+        <string name="signature_text">From Emma</string>
+    </resources>
+    ```
+
+### 3\. El Paso de la Traducción
+
+Una vez que todas las *strings* están centralizadas en `strings.xml` (el archivo por defecto), la **traducción real** (localización) se logra creando **archivos de recursos alternativos** para cada idioma:
+
+1.  **Crear Directorios de Idioma:** En el directorio `res`, crea un nuevo directorio llamado, por ejemplo, `values-es` (para español).
+2.  **Traducir Strings:** Dentro de ese nuevo directorio (`values-es`), crea un archivo `strings.xml`.
+3.  **Mantener Nombres, Traducir Valores:** Este nuevo archivo debe contener los **mismos nombres de recursos** (`name="happy_birthday_text"`), pero los valores serán las *strings* traducidas.
+
+Android se encarga de seleccionar el archivo `strings.xml` correcto (ej. el de `values-es` si el dispositivo está en español) en tiempo de ejecución.
+
+### **Resumen Sencillo:**
+
+Para hacer traducciones, **extrae todo el texto de la aplicación al archivo `strings.xml`** y luego crea versiones traducidas de ese archivo para cada idioma.
