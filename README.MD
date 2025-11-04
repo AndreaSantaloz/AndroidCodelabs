@@ -355,3 +355,386 @@ fun main() {
 }
 
 ```
+
+
+#### Definir una instancia ejemplo
+
+```kotlin
+    fun main() {
+    val smartTvDevice = SmartDevice()
+}
+
+#### Cómo se definen metodos en las clases
+
+```kotlin
+
+class SmartDevice {
+    fun turnOn() {
+        // A valid use case to call the turnOff() method could be to turn off the TV when available power doesn't meet the requirement.
+        turnOff()
+        ...
+    }
+
+    ...
+}
+
+```
+
+#### Cómo se construye un constructor
+
+```kotlin
+class SmartDevice(val name: String, val category: String) {
+
+    var deviceStatus = "online"
+
+    fun turnOn() {
+        println("Smart device is turned on.")
+    }
+
+    fun turnOff() {
+        println("Smart device is turned off.")
+    }
+}
+
+
+```
+
+#### Cómo se construye un constructor secundario
+
+```kotlin
+class SmartDevice(val name: String, val category: String) {
+    var deviceStatus = "online"
+
+    constructor(name: String, category: String, statusCode: Int) : this(name, category) {
+        deviceStatus = when (statusCode) {
+            0 -> "offline"
+            1 -> "online"
+            else -> "unknown"
+        }
+    }
+    ...
+}
+```
+#### Cómo implementar herencia
+La palabra open espesifica herencia
+<br>
+
+```kotlin
+open class SmartDevice(val name: String, val category: String) {
+
+    var deviceStatus = "online"
+
+    open fun turnOn() {
+        // function body
+    }
+
+    open fun turnOff() {
+        // function body
+    }
+}
+
+
+```
+
+#### Tipos de relaciones
+Relaciones IS-A es una relación unidireccional
+Relaciones HAS-A se conoce como composición.
+
+#### Modificadores
+
+Los modificadores de visibilidad son importantes para lograr el encapsulamiento:
+
+    En una clase, te permiten ocultar tus propiedades y métodos para evitar el acceso no autorizado fuera de la clase.
+    En un paquete, te permiten ocultar las interfaces y clases para evitar el acceso no autorizado fuera del paquete.
+
+Kotlin ofrece cuatro modificadores de visibilidad:
+
+    public. Es el modificador de visibilidad predeterminado. Permite que la declaración sea accesible en todas partes. Las propiedades y los métodos que deseas usar fuera de la clase se marcan como públicos.
+    private. Permite que se pueda acceder a la declaración en la misma clase o archivo de origen.
+
+Es probable que algunos métodos y propiedades solo se usen dentro de la clase, y que no necesariamente quieras que se usen otras clases. Estos métodos y propiedades se pueden marcar con el modificador de visibilidad private para garantizar que otra clase no pueda acceder a ellos de forma accidental.
+
+    protected. Hace que la declaración sea accesible en subclases. Las propiedades y los métodos que deseas usar en la clase que los define y las subclases se marcan con el modificador de visibilidad protected.
+    internal. Permite que se pueda acceder a la declaración en el mismo módulo. } El modificador interno es similar al privado, pero puedes acceder a propiedades y métodos internos desde fuera de la clase, siempre y cuando lo hagas en el mismo módulo.
+
+#### Delegados de Propiedad
+
+Esta lección se centra en el uso de Delegados de Propiedad en Kotlin para eliminar el código duplicado y encapsular la lógica de acceso y mutación de las propiedades (las funciones get y set).
+
+1. Definición de Delegado de Propiedad
+
+Un Delegado de Propiedad es un objeto que toma la responsabilidad de administrar el valor de una propiedad, incluyendo las operaciones que normalmente se harían en las funciones accesoras get() y set().
+
+    Sintaxis: Se usa la palabra clave by para "delegar" la gestión de la propiedad a una instancia de una clase delegada:
+    Kotlin
+
+    var propiedad: Tipo by ObjetoDelegado
+
+2. El Problema Resuelto (Duplicación de Código)
+
+Antes de los delegados, la lógica para verificar si un valor está dentro de un rango (ej. para speakerVolume, channelNumber, brightnessLevel) se repetía en el bloque set de cada propiedad en varias clases (SmartTvDevice y SmartLightDevice).
+
+    Objetivo: Reutilizar esta lógica de verificación de rango en una sola clase delegada.
+
+3. Implementación del Delegado (RangeRegulator)
+
+Para crear un delegado que maneje una propiedad de tipo var (lectura y escritura), la clase debe implementar la interfaz ReadWriteProperty.
+
+A. La Interfaz Clave: ReadWriteProperty
+
+Esta interfaz es el "contrato" que debe cumplir el delegado. Requiere la implementación de dos métodos:
+
+    getValue(...): Actúa como la función get() de la propiedad. Devuelve el valor actual.
+
+    setValue(...): Actúa como la función set() de la propiedad. Recibe el nuevo valor y aplica la lógica antes de almacenarlo.
+
+B. La Clase RangeRegulator
+
+Se crea una clase genérica que almacena el valor y aplica la lógica de rango:
+Kotlin
+
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
+
+class RangeRegulator(
+    initialValue: Int,
+    private val minValue: Int,
+    private val maxValue: Int
+) : ReadWriteProperty<Any?, Int> {
+
+    // 1. El campo de copia de seguridad real que almacena el valor
+    var fieldData = initialValue
+
+    // 2. Implementación de getValue (actúa como el 'get')
+    override fun getValue(thisRef: Any?, property: KProperty<*>): Int {
+        return fieldData
+    }
+
+    // 3. Implementación de setValue (actúa como el 'set')
+    override fun setValue(thisRef: Any?, property: KProperty<*>, value: Int) {
+        // Lógica reutilizable: solo asigna si el valor está en el rango
+        if (value in minValue..maxValue) {
+            fieldData = value
+        }
+    }
+}
+
+4. Uso del Delegado en las Propiedades
+
+Finalmente, se utiliza el delegado RangeRegulator en las clases SmartTvDevice y SmartLightDevice para delegarle la gestión de las propiedades:
+Kotlin
+
+// Antes: Tenía que definir el 'set' con la lógica de rango aquí
+// private var speakerVolume: Int = 2 
+
+// Ahora: El delegado RangeRegulator se encarga del 'get' y el 'set' con la lógica de rango
+private var speakerVolume by RangeRegulator(initialValue = 2, minValue = 0, maxValue = 100)
+
+// Igual para otras propiedades con lógica de rango:
+private var channelNumber by RangeRegulator(initialValue = 1, minValue = 0, maxValue = 200)
+
+Conclusión: Los Delegados de Propiedad son una herramienta poderosa de Kotlin que promueve la reutilización de código y la abstracción, permitiendo encapsular la lógica común (como la validación de rango) fuera de la clase principal.
+
+#### Funciones como dato
+
+La lección demuestra que en Kotlin, las funciones no son solo bloques de código ejecutables; son valores que pueden ser almacenados en variables, pasados como argumentos, y devueltos como resultados de otras funciones.
+
+1. 🥇 Las Funciones como Tipo de Datos
+
+En Kotlin, puedes especificar el tipo de una variable o parámetro como una función.
+
+    Sintaxis del Tipo de Función: El tipo se expresa con la forma: (Tipo1, Tipo2, ...) -> TipoDeRetorno
+
+        Los parámetros de entrada van dentro de los paréntesis ().
+
+        La flecha -> separa los parámetros del tipo de dato que se devuelve.
+
+    Ejemplo Clave:
+
+        Una función sin parámetros que no devuelve nada tiene el tipo: () -> Unit.
+
+        Una función que toma dos Int y devuelve un Int tiene el tipo: (Int, Int) -> Int.
+
+2. Almacenar Funciones en Variables
+
+Puedes declarar una variable y asignarle una expresión lambda (una función anónima) y, opcionalmente, especificar su tipo de función explícitamente:
+Kotlin
+
+// Inferencia de tipo: Kotlin infiere que 'trick' es de tipo () -> Unit
+val trick = {
+    println("No treats!")
+}
+
+// Tipo de función explícito: Se declara el tipo () -> Unit
+val treat: () -> Unit = {
+    println("Have a treat!")
+}
+
+3. Devolver una Función desde otra Función
+
+Una función puede devolver otra función como su resultado, utilizando la sintaxis de tipo de función como el tipo de retorno.
+
+    Función trickOrTreat(): Esta función utiliza un valor booleano (isTrick) para decidir qué función devolverá: trick o treat.
+    Kotlin
+
+    fun trickOrTreat(isTrick: Boolean): () -> Unit {
+        if (isTrick) {
+            return trick // Devuelve la función 'trick'
+        } else {
+            return treat // Devuelve la función 'treat'
+        }
+    }
+
+    fun main() {
+        val treatFunction = trickOrTreat(false) // treatFunction ahora es la función 'treat'
+        treatFunction()                       // Esto ejecuta 'Have a treat!'
+    }
+
+4. Pasar una Función como Argumento (Funciones de Orden Superior)
+
+Las funciones pueden ser pasadas como argumentos a otras funciones, creando Funciones de Orden Superior que permiten personalizar el comportamiento.
+
+    Para lograr esto, se declara un parámetro de la función usando la Sintaxis del Tipo de Función.
+
+    Actualización de trickOrTreat(): La lección actualiza la función para aceptar una función como argumento (extraTreat), permitiendo un comportamiento personalizado:
+    Kotlin
+
+    // El parámetro 'extraTreat' es una función que toma un Int y devuelve un String
+    fun trickOrTreat(isTrick: Boolean, extraTreat: (Int) -> String) { 
+        // ... (el código posterior usa este parámetro)
+    }
+
+        Lambda con Parámetros: Si la función pasada como argumento (la lambda) tiene parámetros, estos se nombran y se separan del cuerpo con una flecha -> (ej. { nombreParam -> cuerpo }).
+
+El concepto central es que el uso de funciones como tipos de datos permite escribir código más flexible, modular y reutilizable, un pilar de la programación funcional en Kotlin.
+
+
+### Lambda
+Las expresiones lambda en Kotlin ofrecen varias formas de escribir código más conciso y legible, especialmente cuando se utilizan como argumentos de funciones de orden superior.
+
+1. Omitir el Nombre del Parámetro (Uso Implícito de it)
+
+Cuando una función lambda tiene un único parámetro y no se le proporciona un nombre de forma explícita, Kotlin le asigna implícitamente el nombre it.
+
+    Regla: Puedes omitir el nombre del parámetro y el símbolo ->.
+
+    Sintaxis Original:
+    Kotlin
+
+val coins: (Int) -> String = { quantity ->
+    "$quantity quarters"
+}
+
+Sintaxis Abreviada (usando it):
+Kotlin
+
+    val coins: (Int) -> String = {
+        "$it quarters" // 'it' se refiere al parámetro Int
+    }
+
+2. Pasar una Expresión Lambda Directamente a una Función
+
+Las expresiones lambda son literales de función y, al igual que los literales de String o Int, se pueden pasar directamente como argumentos a la llamada de una función, eliminando la necesidad de una variable intermedia.
+
+    Concepto: Se pasa la lambda { ... } directamente a la llamada a la función que la acepta como parámetro.
+
+    Antes (usando una variable):
+    Kotlin
+
+val coins: (Int) -> String = { "$it quarters" }
+val treatFunction = trickOrTreat(false, coins)
+
+Ahora (pasando directamente):
+Kotlin
+
+    val treatFunction = trickOrTreat(false, { "$it quarters" })
+
+3. Sintaxis de Expresión Lambda al Final (Trailing Lambda)
+
+Cuando el último parámetro de una función es un tipo de función (una lambda), puedes mover la expresión lambda fuera de los paréntesis de la llamada a la función.
+
+    Propósito: Mejora la legibilidad, ya que la lógica de la lambda se separa de los demás argumentos.
+
+    Sintaxis Normal:
+    Kotlin
+
+val treatFunction = trickOrTreat(false, { "$it quarters" })
+
+Sintaxis de Expresión Lambda al Final:
+Kotlin
+
+    val treatFunction = trickOrTreat(false) { "$it quarters" } // La lambda va DESPUÉS del paréntesis de cierre
+
+Esta sintaxis final es muy común en funciones de componibilidad (Composable functions) que se usan para declarar la Interfaz de Usuario (IU) en bibliotecas como Jetpack Compose.
+
+#### Comando repeat
+¡Claro! Con gusto te hago un resumen sobre el uso de la función de orden superior repeat() en Kotlin para ejecutar código repetidamente, junto con la sintaxis de expresión lambda al final y el uso del parámetro implícito it.
+
+🔁 Resumen de la Función de Orden Superior repeat()
+
+Una función de orden superior es aquella que toma una función como argumento y/o devuelve una función. La función repeat() es un ejemplo conciso de una función de orden superior proporcionada por Kotlin para realizar un bucle.
+
+Firma de la Función repeat()
+
+La función repeat() tiene la siguiente estructura:
+Kotlin
+
+repeat(times: Int, action: (Int) -> Unit)
+
+    times: Int: Especifica la cantidad de veces que se debe ejecutar la acción.
+
+    action: (Int) -> Unit: Es la función lambda que se ejecutará repetidamente.
+
+        Toma un único parámetro Int (el índice de la iteración, comenzando en 0).
+
+        Devuelve Unit (no devuelve un valor significativo).
+
+Implementación y Sintaxis
+
+La función repeat() se utiliza como una alternativa más concisa a un bucle for simple, especialmente cuando no es necesario un bucle for completo.
+
+1. Uso de la Sintaxis Lambda al Final
+
+Como el parámetro action (el tipo de función) es el último parámetro de la función repeat(), se puede usar la sintaxis de expresión lambda al final (Trailing Lambda):
+Kotlin
+
+repeat(4) {
+    // Código a repetir
+}
+
+2. Omisión del Parámetro Implícito it
+
+El parámetro Int de la lambda action es el índice de la iteración (0, 1, 2, 3...). Si no necesitas usar este índice dentro del bloque, puedes omitir por completo su nombre y el símbolo ->. Kotlin le asignaría implícitamente el nombre it, pero si no se usa, la sintaxis queda simplemente:
+Kotlin
+
+repeat(4) {
+    // El índice 'it' existe, pero no se usa aquí.
+    treatFunction()
+}
+
+Código Final Actualizado
+
+Al aplicar repeat(4) con la sintaxis lambda al final y mover la llamada a treatFunction() dentro del bloque de acción, el código logra que la acción se ejecute cuatro veces:
+Kotlin
+
+fun main() {
+    val treatFunction = trickOrTreat(false) { "$it quarters" }
+    val trickFunction = trickOrTreat(true, null)
+    
+    // Repite la acción de 'treatFunction()' 4 veces
+    repeat(4) { 
+        treatFunction()
+    }
+    
+    trickFunction()
+}
+
+El resultado de la ejecución es que la cadena "Have a treat!" se imprime cuatro veces seguidas, antes de que se ejecute la llamada final a trickFunction():
+
+5 quarters
+Have a treat!
+Have a treat!
+Have a treat!
+Have a treat!
+No treats!
+
