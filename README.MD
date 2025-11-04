@@ -342,6 +342,8 @@ OOP ayuda a simplificar problemas complejos del mundo real en objetos más peque
 <br>
     4. Polimorfismo. La palabra es una adaptación de la raíz griega poly-, que significa muchas, y -morphism, que significa formas. El polimorfismo es la capacidad de usar objetos diferentes de una manera común. Por ejemplo, cuando conectas una bocina Bluetooth a tu teléfono móvil, este solo necesita saber si hay un dispositivo que puede reproducir audio mediante Bluetooth. Sin embargo, puedes elegir entre una variedad de bocinas Bluetooth, y tu teléfono no necesita saber cómo trabajar con cada una de ellas a nivel específico.
 <br>
+
+
 #### Definir una clase
 Ejemplo de como se hace
 ```kotlin
