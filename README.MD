@@ -29,12 +29,16 @@ La llave de cierre se encuentra en su propia línea después de la última líne
 En la programación informática, existe el concepto de variable, que es un contenedor para un único dato. Puedes visualizarla como una caja que contiene un valor. Esa caja tiene una etiqueta, que es el nombre de la variable. Si te refieres a la caja por su nombre, tendrás acceso al valor que contiene.
 ### Tipos de variables
 !["Tipo de datos"](./images/Datas.png)
+Existe también un tipo llamado null
+
 ### ¿Cómo defines una variable?
 Cuando defines una variable, le asignas un nombre para identificarla de manera única. También debes decidir qué tipo de datos puede contener mediante la especificación del tipo de datos. Por último, puedes proporcionar un valor inicial que se almacenará en la variable, pero es opcional.
 ### Declaración de una variable como ejemplo
 ```
 val count: Int = 2
 ```
+
+Para declarar variables anulables se le pone al tipo un interrogante al lado por ejemplo --> var favoriteActor: String? = "Sandra Oh"
 ## ¿Cómo se comenta?
 Utlizando dos barras diagonales (//) como comentario simple y /**/ como comentario de más de una línea
 ## ¿Qué es una función?
@@ -313,3 +317,36 @@ Android se encarga de seleccionar el archivo `strings.xml` correcto (ej. el de `
 ### **Resumen Sencillo:**
 
 Para hacer traducciones, **extrae todo el texto de la aplicación al archivo `strings.xml`** y luego crea versiones traducidas de ese archivo para cada idioma.
+
+### 4 Condicionales
+En kotlin tienen el tipico if,if-else,if-else-if-else y when.Este último es como un switch en  java.
+También en when los condicionales son  objeto -> respuesta o también podemos encontrarnos un else o el operador in que es si se encuentra en el rango in (1..n) -> print("true").También
+nos podemos encontrar is para saber si el tipo de dato es adecuado is int --> print("true")
+
+
+### Programación orientada a objetos
+
+las clases proporcionan planos a partir de cuales se pueden construir objetos. Un objeto es una instancia de una clase que consiste en datos específicos de ese objeto. Puedes usar instancias de clase y objetos indistintamente.
+
+Como analogía, imagina que construyes una casa. Una clase es similar al plan de diseño de un arquitecto, también conocido como plano. El plano no es la casa, sino las instrucciones para construirla. La casa es el objeto real que se construye a partir de ese plano.
+
+Al igual que el plano de una casa especifica varias habitaciones, y cada una tiene su propio diseño y propósito, cada clase tiene su propio diseño y propósito. Para saber cómo diseñar tus clases, debes familiarizarte con la programación orientada a objetos (OOP), un framework que te enseña a encerrar datos, lógica y comportamiento en los objetos.
+
+OOP ayuda a simplificar problemas complejos del mundo real en objetos más pequeños. Hay cuatro conceptos básicos de OOP, cada uno de los cuales aprenderás más adelante en este codelab:
+
+   1.  Encapsulamiento. Envuelve las propiedades y los métodos relacionados que realizan acciones en esas propiedades en una clase. Por ejemplo, considera tu teléfono móvil. Encapsula una cámara, una pantalla, tarjetas de memoria y varios componentes de hardware y software. No tienes que preocuparte por la forma en que los componentes se conectan de forma interna.
+    2. Abstracción. Es una extensión del encapsulamiento. La idea es ocultar la lógica de implementación interna tanto como sea posible. Por ejemplo, para tomar una foto con tu teléfono móvil, solo debes abrir la app de la cámara, apuntar el teléfono hacia la escena que deseas capturar y hacer clic en un botón para capturar la foto. No necesitas saber cómo se compila la app de la cámara ni cómo funciona realmente el hardware de la cámara del teléfono. En resumen, los mecanismos internos de la aplicación de cámara y la forma en que una cámara móvil captura las fotos se abstraen para permitirte realizar las tareas importantes.
+    3. Herencia. Permite crear una clase en función de las características y el comportamiento de otras clases estableciendo una relación de superior y secundario. Por ejemplo, hay distintos fabricantes que producen una variedad de dispositivos móviles que ejecutan el SO Android, pero la IU de cada uno es diferente. En otras palabras, los fabricantes heredan la función del SO Android y compilan sus personalizaciones a partir de ella.
+    4. Polimorfismo. La palabra es una adaptación de la raíz griega poly-, que significa muchas, y -morphism, que significa formas. El polimorfismo es la capacidad de usar objetos diferentes de una manera común. Por ejemplo, cuando conectas una bocina Bluetooth a tu teléfono móvil, este solo necesita saber si hay un dispositivo que puede reproducir audio mediante Bluetooth. Sin embargo, puedes elegir entre una variedad de bocinas Bluetooth, y tu teléfono no necesita saber cómo trabajar con cada una de ellas a nivel específico.
+
+#### Definir una clase
+Ejemplo de como se hace
+```kotlin
+    class SmartDevice {
+    // empty body
+}
+
+fun main() {
+}
+
+```
