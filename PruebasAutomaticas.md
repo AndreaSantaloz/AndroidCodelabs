@@ -141,7 +141,69 @@ fun calculateTip_20PercentNoRoundup() {
 - No contienen lógica compleja como el código de producción
 - Se enfocan en verificar comportamientos específicos
 - Las aserciones son fundamentales para validar los resultados
+# 📱 Resumen Ejecutivo: Pruebas de Instrumentación en Jetpack Compose
 
+## 🎯 **Propósito Principal**
+Verificar el funcionamiento de la interfaz de usuario y las interacciones del usuario en condiciones reales (dispositivo físico o emulador).
+
+## 🏗️ **Componentes Clave**
+
+### **1. Configuración Inicial**
+```kotlin
+@get:Rule
+val composeTestRule = createComposeRule()
+```
+
+### **2. Diferenciación por Directorio**
+- **`androidTest`** → Pruebas de instrumentación
+- **`test`** → Pruebas locales
+
+## 🔄 **Flujo de Trabajo en 3 Pasos**
+
+### **Paso 1: Configurar la UI**
+```kotlin
+composeTestRule.setContent {
+    TipTimeTheme {
+        TipTimeLayout()
+    }
+}
+```
+
+### **Paso 2: Interactuar con Elementos**
+```kotlin
+// Localizar y escribir en campos
+.onNodeWithText("Bill Amount").performTextInput("10")
+.onNodeWithText("Tip Percentage").performTextInput("20")
+```
+
+### **Paso 3: Verificar Resultados**
+```kotlin
+val expectedTip = NumberFormat.getCurrencyInstance().format(2)
+.onNodeWithText("Tip Amount: $expectedTip").assertExists("Mensaje de error")
+```
+
+## 📋 **Casos de Uso Típicos**
+- ✅ Probar flujos completos de usuario
+- ✅ Verificar cálculos en tiempo real
+- ✅ Validar formato y visualización de datos
+- ✅ Confirmar interacciones de UI
+
+## ⚠️ **Consideraciones Clave**
+- **Configuración regional** afecta formatos de moneda
+- **Textos exactos** deben coincidir con la UI real
+- **Mensajes de error** descriptivos para debugging
+
+## 🚀 **Ejecución**
+- Click en flechas del IDE para ejecutar
+- Se prueba en dispositivo/emulador real
+- Resultados visibles en panel "Run"
+
+## 🎖️ **Beneficios**
+- Pruebas desde la perspectiva del usuario final
+- Detección de errores de UI/UX
+- Validación de integración entre componentes
+
+**Esta aproximación garantiza que la aplicación funcione correctamente en un entorno real, más allá del código puro.**
 A diferencia de las pruebas locales, las pruebas de IU inician una app o parte de ella, simulan las interacciones del usuario y comprueban si la app reaccionó adecuadamente. A lo largo de este curso, las pruebas de IU se ejecutan en un dispositivo físico o emulador.
 
 Cuando ejecutas una prueba de instrumentación en Android, el código de prueba en realidad se compila en su propio Paquete de aplicación para Android (APK), como una app para Android normal. Un APK es un archivo comprimido que contiene todo el código y los archivos necesarios para ejecutar la app en un dispositivo o emulador. Ese APK de prueba se instala en el dispositivo o emulador junto con el APK de la app normal. Luego, el APK de prueba ejecuta sus pruebas en el APK de la app.
