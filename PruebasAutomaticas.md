@@ -28,6 +28,119 @@ Las pruebas locales son un tipo de prueba automatizada que prueban directamente 
 Pruebas de instrumentación
 
 Para el desarrollo de Android, una prueba de instrumentación es una prueba de IU. Las pruebas de instrumentación te permiten probar partes de una app que dependen de la API de Android, así como las APIs y los servicios de su plataforma.
+# Cómo crear un directorio de prueba en Android Studio
+
+## **Pasos Detallados:**
+
+### **1. Cambiar a la vista Project**
+- En la pestaña **Project** (normalmente en la parte superior izquierda)
+- Cambiar de "Android" a **"Project"** para ver la estructura completa del proyecto
+
+### **2. Crear el directorio test**
+- Haz clic derecho sobre el directorio **`src`**
+- Selecciona **New > Directory**
+- En la ventana "New Directory", selecciona **`test/java`**
+- Presiona **Enter** o **Return**
+
+### **3. Crear la estructura de paquetes**
+El directorio `test` debe replicar exactamente la estructura de paquetes del código principal:
+
+- Haz clic derecho en **`test/java`**
+- Selecciona **New > Package**
+- En "New Package", escribe el mismo paquete que usas en tu app:
+  - Ejemplo: **`com.example.tiptime`**
+  - (Reemplaza con el nombre de tu paquete específico)
+
+## **Estructura Final Esperada:**
+```
+app/
+├── src/
+│   ├── main/
+│   │   └── java/
+│   │       └── com/
+│   │           └── example/
+│   │               └── tiptime/
+│   │                   └── MainActivity.kt
+│   └── test/                    ← Nuevo directorio
+│       └── java/
+│           └── com/
+│               └── example/
+│                   └── tiptime/  ← Mismo paquete
+│                       └── TipCalculatorTests.kt
+```
+
+## **Verificación Visual:**
+- Deberías ver el directorio `test` paralelo al directorio `main`
+- La estructura de carpetas dentro de `test/java` debe ser idéntica a `main/java`
+
+## **¿Por qué esta estructura?**
+- **Consistencia:** Las pruebas deben estar en el mismo paquete que las clases que prueban
+- **Organización:** Facilita encontrar pruebas relacionadas con cada clase
+- **Acceso:** Permite probar métodos `internal` dentro del mismo paquete
+
+## **Alternativa con Gradle:**
+Si prefieres usar la línea de comandos, puedes crear la estructura con:
+```bash
+mkdir -p app/src/test/java/com/example/tiptime
+```
+
+¡Una vez creada esta estructura, ya puedes comenzar a escribir tus pruebas locales!
+
+## Resumen de la Lección: Cómo escribir pruebas locales
+
+### **Propósito de las pruebas locales**
+- Probar directamente métodos específicos del código de la aplicación
+- Verificar que la lógica de funciones individuales funcione correctamente
+
+### **Pasos Clave:**
+
+1. **Preparar el código para pruebas:**
+   - Cambiar métodos `private` a `internal` para hacerlos accesibles
+   - Agregar anotación `@VisibleForTesting` para indicar que es público solo para pruebas
+
+2. **Estructura de directorios:**
+   - Crear directorio `test` en `app/src/`
+   - Replicar la misma estructura de paquetes que en `main/java/`
+
+3. **Crear clase de prueba:**
+   - Nueva clase Kotlin en el paquete de pruebas
+   - Nombre descriptivo (ej: `TipCalculatorTests`)
+
+4. **Escribir la prueba:**
+   - **Anotación:** `@Test` para identificar métodos de prueba
+   - **Nomenclatura:** Nombres descriptivos que indiquen qué se prueba
+   - **Estructura:**
+     - Configurar variables de entrada
+     - Definir resultado esperado
+     - Llamar al método bajo prueba
+     - Verificar con aserciones
+
+### **Ejemplo de Prueba:**
+```kotlin
+@Test
+fun calculateTip_20PercentNoRoundup() {
+    val amount = 10.00
+    val tipPercent = 20.00
+    val expectedTip = NumberFormat.getCurrencyInstance().format(2)
+    val actualTip = calculateTip(amount = amount, tipPercent = tipPercent, false)
+    assertEquals(expectedTip, actualTip)
+}
+```
+
+### **Aserciones Comunes:**
+- `assertEquals()` - verifica igualdad
+- `assertTrue()`/`assertFalse()` - verifica condiciones booleanas
+- `assertNull()`/`assertNotNull()` - verifica valores nulos
+
+### **Ejecución:**
+- Usar las flechas en el margen del IDE para ejecutar pruebas individuales o toda la clase
+- Ver resultados en el panel "Run"
+
+### **Conceptos Importantes:**
+- Las pruebas verifican resultados esperados vs. resultados reales
+- No contienen lógica compleja como el código de producción
+- Se enfocan en verificar comportamientos específicos
+- Las aserciones son fundamentales para validar los resultados
 
 A diferencia de las pruebas locales, las pruebas de IU inician una app o parte de ella, simulan las interacciones del usuario y comprueban si la app reaccionó adecuadamente. A lo largo de este curso, las pruebas de IU se ejecutan en un dispositivo físico o emulador.
 
